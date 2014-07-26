@@ -1,0 +1,78 @@
+# ========================
+# GenEx example Processors
+# ========================
+---
+
+- name: genex:upload:textfile
+  varsion: 1.0.0
+  label: Upload text file
+  type: data:genex:text
+  persistence: RAW
+  description: >
+    Upload an arbitrary text file with .txt extension.
+  input:
+    - name: txtin
+      label: Text file
+      type: basic:file
+      required: true
+      validate_regex: '\.txt$'
+  output:
+    - name: txtout
+      label: Text file
+      type: basic:file
+  static:
+    - name: name
+      label: Name
+      type: basic:string
+      default: "Uploaded {{ textin.file }}"
+    - name: tags
+      label: Tags
+      type: list:basic:string
+      default: ["text"]
+      placeholder: new tag
+  var:
+    - name: notes
+      label: Notes
+      type: basic:text
+  run:
+    runtime: polyglot
+    bash: |
+      mv {{ proc.upload_path }}/{{ textin.file_temp }} {{ textin.file }}
+      echo "{\"proc.rc\":$?,\"proc.progress\":1,\"txtout\":{\"file\": \"{{ textin.file }}\"}}"
+
+
+- name: genex:wordfreq
+  varsion: 1.0.0
+  label: Compute word frequences
+  type: data:genex:freq
+  persistence: CACHED
+  description: >
+    Compute for frequences for all words in the input text file.
+  input:
+    - name: txtin
+      label: Text file
+      type: data:genex:text
+      required: true
+  output:
+    - name: freq
+      label: Word frequencies
+      type: basic:json
+  static:
+    - name: name
+      label: Name
+      type: basic:string
+      default: "Word freq. of {{ textin.file }}"
+    - name: tags
+      label: Tags
+      type: list:basic:string
+      default: ["word", "frequencies"]
+      placeholder: new tag
+  var:
+    - name: notes
+      label: Notes
+      type: basic:text
+  run:
+    runtime: polyglot
+    bash: |
+      cat {{ txtin.file }} | tr ' ' '\n' | sed -e 's/\.$//g' | sort | uniq -c | awk '{print $2"@"$1}'
+

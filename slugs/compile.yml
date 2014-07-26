@@ -1,0 +1,14 @@
+# ===================================
+# Tasks for compiling slugs for GenEx
+# ===================================
+#
+# Ansible task list to download, compile and prepare slugs for the GenEx processors.
+---
+
+- name: genesis_web | install GenEx requirements
+  apt: pkg={{ item }} state=latest
+  with_items:
+    - tr
+    - sed
+    - uniq
+    - awk
