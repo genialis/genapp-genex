@@ -7,7 +7,7 @@ An example of AngularJS-based GenApp for the Genesis platform.
 Installation
 ------------
 
-Clone the app into the ``genapps`` folder:
+Clone the GenEx web application into the ``genapps`` folder:
 
 .. code-block:: bash
 
