@@ -4,7 +4,7 @@
 ---
 
 - name: genex:upload:textfile
-  varsion: 1.0.0
+  version: 1.0.0
   label: Upload text file
   type: data:genex:text
   persistence: RAW
@@ -24,7 +24,7 @@
     - name: name
       label: Name
       type: basic:string
-      default: "Uploaded {{ textin.file }}"
+      default: "Uploaded {{ txtin.file }}"
     - name: tags
       label: Tags
       type: list:basic:string
@@ -37,12 +37,13 @@
   run:
     runtime: polyglot
     bash: |
-      mv {{ proc.upload_path }}/{{ textin.file_temp }} {{ textin.file }}
-      echo "{\"proc.rc\":$?,\"proc.progress\":1,\"txtout\":{\"file\": \"{{ textin.file }}\"}}"
+      echo "{{txtin}}"
+      mv "{{ proc.upload_path }}/{{ txtin.file_temp }}" "{{ txtin.file }}"
+      echo "{\"proc.rc\":$?,\"proc.progress\":1,\"txtout\":{\"file\": \"{{ txtin.file }}\"}}"
 
 
 - name: genex:wordfreq
-  varsion: 1.0.0
+  version: 1.0.0
   label: Compute word frequences
   type: data:genex:freq
   persistence: CACHED

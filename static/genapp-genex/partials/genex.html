@@ -1,5 +1,25 @@
+<div id="notifications" class="container"></div>
 <div class="container">
     <h1>GenEx</h1>
 
     <p>Genesis example GenApp.</p>
+
+    <form id="fileupload" action="/upload/" method="POST" enctype="multipart/form-data"
+        data-file-upload="uploadOptions"
+        data-ng-class="{'fileupload-processing': processing() || loadingFiles}">
+
+        <div class="fileupload-buttonbar">
+            <span class="btn btn-default fileinput-button">
+                <i class="glyphicon glyphicon-cloud-upload"></i>
+                Upload txt file
+                <input type="file" name="files[]" multiple accept="*.txt">
+            </span>
+            <span class="fileupload-process"></span>
+        </div>
+
+    </form>
+</div>
+
+<div class="container">
+    <gen-table gen-options="tableOptions">
 </div>
