@@ -9,6 +9,6 @@ Installation
 
 Clone the app into the ``genapps`` folder:
 
-``
-git clone https://github.com/genialis/genapp-genex.git
-``
+.. code-block:: bash
+
+    git clone https://github.com/genialis/genapp-genex.git
