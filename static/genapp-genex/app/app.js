@@ -19,13 +19,5 @@ angular.module('genex', ['ngRoute', 'ngGrid', 'genjs.services', 'genjs.table',
             redirectTo: '/'
         });
     }])
-
-    .config(['$httpProvider', function ($httpProvider) {
-        // Adds a csrftoken to all http requests.
-        $httpProvider.defaults.headers.common['X-CSRFToken'] = $.cookie('csrftoken');
-    }])
-
-    .run(['forceTitle', function (forceTitle) {
-        forceTitle('GenEx');
-    }])
+    .constant('title', 'GenEx')
 ;
