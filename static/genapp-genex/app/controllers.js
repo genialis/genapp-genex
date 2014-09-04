@@ -38,5 +38,12 @@ angular.module('genex.controllers', [])
             autoUpload: true,
             singleClickAccept: true
         };
+
+        $element.find('#fileupload').on('fileuploaddone', function (e, data) {
+            angular.forEach(data.result.files, function (file) {
+                console.log(file);
+                //runProcessor(file, $scope.options.processorName);
+            });
+        });
     }])
 ;

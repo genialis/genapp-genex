@@ -3,8 +3,8 @@
 # ========================
 ---
 
-- name: genex:upload:textfile
-  version: 1.0.0
+- name: import:upload:textfile
+  version: 1.0.1
   label: Upload text file
   type: data:genex:text
   persistence: RAW
@@ -38,12 +38,12 @@
     runtime: polyglot
     bash: |
       echo "{{txtin}}"
-      mv "{{ proc.upload_path }}/{{ txtin.file_temp }}" "{{ txtin.file }}"
+      mv "{{ txtin.file_temp }}" "{{ txtin.file }}"
       echo "{\"proc.rc\":$?,\"proc.progress\":1,\"txtout\":{\"file\": \"{{ txtin.file }}\"}}"
 
 
 - name: genex:wordfreq
-  version: 1.0.0
+  version: 1.0.1
   label: Compute word frequences
   type: data:genex:freq
   persistence: CACHED
@@ -75,5 +75,11 @@
   run:
     runtime: polyglot
     bash: |
-      cat {{ txtin.file }} | tr ' ' '\n' | sed -e 's/\.$//g' | sort | uniq -c | awk '{print $2"@"$1}'
-
+      WC=`cat {{ txtin.file }} | \
+          tr ' ' '\n' | \
+          sed -e 's/[^a-zA-Z]//g' | \
+          sort | \
+          uniq -c | \
+          awk '{print "\""$2"\":"$1}' | \
+          tr "\\n" ","`
+      echo {${WC%?}}
