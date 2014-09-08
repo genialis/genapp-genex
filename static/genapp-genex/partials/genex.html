@@ -5,8 +5,8 @@
     computes word frequencies of uploaded text files.</p>
 
     <form id="fileupload" action="/upload/" method="POST" enctype="multipart/form-data"
-        data-file-upload="uploadOptions"
-        data-ng-class="{'fileupload-processing': processing() || loadingFiles}">
+        file-upload="uploadOptions"
+        ng-class="{'fileupload-processing': processing() || loadingFiles}">
 
         <div class="fileupload-buttonbar">
             <span class="btn btn-default fileinput-button">
@@ -15,16 +15,25 @@
                 <input type="file" name="files[]" multiple accept="*.txt">
             </span>
 
-            <div class="progress progress-striped active fade"
-            data-ng-class="{pending: 'in'}[queue[queue.length-1].$state()]"
-            data-file-upload-progress="queue[queue.length-1].$progress()">
-                <div class="progress-bar progress-bar-success" data-ng-style="{width: num + '%'}"></div>
+            <div class="progress progress-striped active"
+            ng-show="queue[queue.length-1].$state() == 'pending'"
+            file-upload-progress="queue[queue.length-1].$progress()">
+                <div class="progress-bar progress-bar-success" ng-style="{width: num + '%'}"></div>
             </div>
         </div>
 
     </form>
-</div>
 
-<div class="container">
-    <gen-table gen-options="tableOptions">
+
+    <gen-table gen-options="tableOptions"></gen-table>
+
+    <h3>Results</h3>
+    <pre>{{ results | json }}</pre>
+
+    <h3>Processing</h3>
+    <pre>{{ withoutSchemas(processingItem) | json }}</pre>
+
+    <h3>Selected</h3>
+    <pre>{{ withoutSchemas(item) | json }}</pre>
+
 </div>
