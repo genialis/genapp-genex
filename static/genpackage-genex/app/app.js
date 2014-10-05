@@ -8,11 +8,11 @@ angular.module('genex', ['ngRoute', 'ngGrid', 'genjs.services', 'genjs.table',
 
         $routeProvider
         .when('/', {
-            templateUrl: '/static/genapp-genex/partials/genex.html',
+            templateUrl: '/static/genpackage-genex/partials/genex.html',
             controller: 'GenExCtrl'
         })
         .when('/:projectId/', {
-            templateUrl: '/static/genapp-genex/partials/genex.html',
+            templateUrl: '/static/genpackage-genex/partials/genex.html',
             controller: 'GenExCtrl'
         })
         .otherwise({
