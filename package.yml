@@ -1,4 +1,4 @@
-name: GenEx
+title: GenEx
 modules:
     - example
 version: 1.0.0
