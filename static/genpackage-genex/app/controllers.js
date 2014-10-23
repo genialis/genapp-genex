@@ -24,7 +24,7 @@ angular.module('genex.controllers', [])
             itemsByPage: 15,
             project: null, // Project will be set when we get project data (if projectId is found in url)
             genId: 'txttable',
-            genApp: 'genex',
+            genPackage: 'genex',
             filter: function (obj) { return obj.type === importProcType; }, // Only show text objects
             multiSelect: false,
             selectedItems: [],

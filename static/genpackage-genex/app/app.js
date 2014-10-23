@@ -4,15 +4,11 @@
 angular.module('genex', ['ngRoute', 'ngGrid', 'genjs.services', 'genjs.table',
     'genex.controllers', 'blueimp.fileupload'])
 
-    .config(['$routeProvider', function ($routeProvider) {
+    .config(['$routeProvider', 'appProjectsProvider', function ($routeProvider, appProjectsProvider) {
 
-        $routeProvider
-        .when('/', {
-            templateUrl: '/static/genapp-genex/partials/genex.html',
-            controller: 'GenExCtrl'
-        })
+        appProjectsProvider.$routeProvider()
         .when('/:projectId/', {
-            templateUrl: '/static/genapp-genex/partials/genex.html',
+            templateUrl: '/static/genpackage-genex/partials/genex.html',
             controller: 'GenExCtrl'
         })
         .otherwise({
