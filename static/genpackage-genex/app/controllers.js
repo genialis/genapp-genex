@@ -41,7 +41,7 @@ angular.module('genex.controllers', [])
             finalDone: function (serverFile, clientFile) {
                 // Set import processor parameters
                 var process = new Data({
-                    case_id: projectId,
+                    case_ids: [projectId],
                     processor_name: importProcName,
                     input: {
                         txtin: {
