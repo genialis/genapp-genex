@@ -77,9 +77,6 @@ angular.module('genex.controllers', [])
             // Processor inputs
             var inputs = { txtin: item.id };
 
-            // While waiting for processor to finish, check every 1000ms if it has finished
-            var checkInterval = 1000;
-
             // When it finally finishes, find it's storage ID, where the results are saved
             var getStorageId = function (processedData) {
                 return processedData.output.freq; // TODO: where is storage ID saved
@@ -102,13 +99,13 @@ angular.module('genex.controllers', [])
                 console.log('error', errorReason);
             };
 
-            createAndWaitProcessor(projectId, wordsProcName, inputs, checkInterval, getStorageId)
+            createAndWaitProcessor(projectId, wordsProcName, inputs, getStorageId)
                 .promise.then(onStorageDataRecieved, onErrorOccured, onCheckInterval);
         }
 
         // A shorter version of runWordsProcessor
         function runWordsProcessorShortVersion(item) {
-            createAndWaitProcessor(projectId, wordsProcName, { txtin: item.id }, 1000, function (processedData) {
+            createAndWaitProcessor(projectId, wordsProcName, { txtin: item.id }, function (processedData) {
                 return processedData.output.freq; // TODO: where is storage ID saved
             }).promise.then(function (storageData) {
                 $scope.results = storageData;
