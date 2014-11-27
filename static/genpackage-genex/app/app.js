@@ -4,12 +4,13 @@
 angular.module('genex', ['ngRoute', 'ngGrid', 'genjs.services', 'genjs.table',
     'genex.controllers', 'blueimp.fileupload'])
 
-    .config(['$routeProvider', 'appProjectsProvider', function ($routeProvider, appProjectsProvider) {
+    .config(['$routeProvider', 'appProjectsProvider', 'resolveByRouteField', function ($routeProvider, appProjectsProvider, resolveByRouteField) {
 
         appProjectsProvider.$routeProvider()
-        .when('/:projectId/', {
+        .when('/:projectSlug/', {
             templateUrl: '/static/genpackage-genex/partials/genex.html',
-            controller: 'GenExCtrl'
+            controller: 'GenExCtrl',
+            resolve: { _project: resolveByRouteField('Project', 'url_slug', 'projectSlug', true) }
         })
         .otherwise({
             redirectTo: '/'
