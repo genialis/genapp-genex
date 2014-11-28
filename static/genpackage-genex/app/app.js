@@ -11,9 +11,6 @@ angular.module('genex', ['ngRoute', 'ngGrid', 'genjs.services', 'genjs.table',
             templateUrl: '/static/genpackage-genex/partials/genex.html',
             controller: 'GenExCtrl',
             resolve: { _project: resolveByRouteField('Project', 'url_slug', 'projectSlug', true) }
-        })
-        .otherwise({
-            redirectTo: '/'
         });
     }])
     .constant('title', 'GenEx')
