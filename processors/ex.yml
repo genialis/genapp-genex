@@ -43,7 +43,7 @@
 
 
 - name: genex:wordfreq
-  version: 1.0.1
+  version: 1.0.2
   label: Compute word frequences
   type: data:genex:freq
   persistence: CACHED
@@ -62,7 +62,7 @@
     - name: name
       label: Name
       type: basic:string
-      default: "Word freq. of {{ textin.file }}"
+      default: "Word freq. of {{ txtin.output.txtout.file }}"
     - name: tags
       label: Tags
       type: list:basic:string
@@ -75,11 +75,11 @@
   run:
     runtime: polyglot
     bash: |
-      WC=`cat {{ txtin.file }} | \
+      WC=`cat {{ txtin.output.txtout.file }} | \
           tr ' ' '\n' | \
           sed -e 's/[^a-zA-Z]//g' | \
           sort | \
           uniq -c | \
           awk '{print "\""$2"\":"$1}' | \
           tr "\\n" ","`
-      echo {${WC%?}}
+      echo "{\"freq\": {${WC%?}}}"

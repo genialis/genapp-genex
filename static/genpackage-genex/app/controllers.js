@@ -2,27 +2,18 @@
 
 
 angular.module('genex.controllers', [])
-    .controller('GenExCtrl', ['$scope', '$route', 'notify', 'Project', 'Data', 'DataCache', 'fileUpload', 'createAndWaitProcessor',
-        function ($scope, $route, notify, Project, Data, DataCache, fileUpload, createAndWaitProcessor) {
+    .controller('GenExCtrl', ['_project', '$scope', 'notify', 'Data', 'DataCache', 'fileUpload', 'createAndWaitProcessor',
+        function (_project, $scope, notify, Data, DataCache, fileUpload, createAndWaitProcessor) {
 
         var importProcName = 'import:upload:textfile';
         var importProcType = 'data:genex:text:';
 
         var wordsProcName = 'genex:wordfreq';
 
-        var projectId = $route.current.params.projectId;
-        if (!projectId) {
-            notify({ type: 'error', message: 'No project ID found in the url address' });
-        } else {
-            Project.get({ id: projectId }, function (proj) {
-                $scope.tableOptions.project = proj;
-            });
-        }
-
         // Set gentable options
         $scope.tableOptions = {
             itemsByPage: 15,
-            project: null, // Project will be set when we get project data (if projectId is found in url)
+            project: _project,
             genId: 'txttable',
             genPackage: 'genex',
             filter: function (obj) { return obj.type === importProcType; }, // Only show text objects
@@ -41,7 +32,7 @@ angular.module('genex.controllers', [])
             finalDone: function (serverFile, clientFile) {
                 // Set import processor parameters
                 var process = new Data({
-                    case_ids: [projectId],
+                    case_ids: [_project.id],
                     processor_name: importProcName,
                     input: {
                         txtin: {
@@ -78,40 +69,40 @@ angular.module('genex.controllers', [])
             var inputs = { txtin: item.id };
 
             // When it finally finishes, find it's storage ID, where the results are saved
-            var getStorageId = function (processedData) {
+            function getStorageId(processedData) {
                 return processedData.output.freq; // TODO: where is storage ID saved
-            };
+            }
 
             // When results are obtained from storage, save them into results variable
-            var onStorageDataRecieved = function (storageData) {
+            function onStorageDataRecieved(storageData) {
                 $scope.results = storageData;
-            };
+            }
 
-            // While checking if processor has finished:
-            //   after every check, update processor's state in processingItem variable
-            var onCheckInterval = function (processingData){
+            // Before processor has finished:
+            //   after every change, update processor's state in processingItem variable
+            function onChange(processingData) {
                 $scope.processingItem = processingData;
-            };
+            }
 
             // If an error occurs, log it into console.
             // Some errors are already handled within createAndWaitProcessor and show a notification
-            var onErrorOccured = function (errorReason) {
+            function onErrorOccured(errorReason) {
                 console.log('error', errorReason);
-            };
+            }
 
-            createAndWaitProcessor(projectId, wordsProcName, inputs, getStorageId)
-                .promise.then(onStorageDataRecieved, onErrorOccured, onCheckInterval);
+            createAndWaitProcessor(_project.id, wordsProcName, inputs, getStorageId)
+                .promise.then(onStorageDataRecieved, onErrorOccured, onChange);
         }
 
         // A shorter version of runWordsProcessor
         function runWordsProcessorShortVersion(item) {
-            createAndWaitProcessor(projectId, wordsProcName, { txtin: item.id }, function (processedData) {
+            createAndWaitProcessor(_project.id, wordsProcName, { txtin: item.id }, function (processedData) {
                 return processedData.output.freq; // TODO: where is storage ID saved
             }).promise.then(function (storageData) {
                 $scope.results = storageData;
             }, function (errorReason) {
                 console.log('error', errorReason);
-            }, function (processingData){
+            }, function (processingData) {
                 $scope.processingItem = processingData;
             });
         }
