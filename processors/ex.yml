@@ -48,7 +48,7 @@
   type: data:genex:freq
   persistence: CACHED
   description: >
-    Compute for frequences for all words in the input text file.
+    Compute frequencies for all words in the input text file.
   input:
     - name: txtin
       label: Text file
