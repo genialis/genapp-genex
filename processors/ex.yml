@@ -43,7 +43,7 @@
 
 
 - name: genex:wordfreq
-  version: 1.0.2
+  version: 1.0.3
   label: Compute word frequences
   type: data:genex:freq
   persistence: CACHED
