@@ -16,7 +16,10 @@ angular.module('genex.controllers', [])
             project: _project,
             genId: 'txttable',
             genPackage: 'genex',
-            filter: function (obj) { return obj.type === importProcType; }, // Only show text objects
+            filter: {
+                type: importProcType,
+                _fn: function (obj) { return obj.type === importProcType; } // Only show text objects
+            },
             multiSelect: false,
             selectedItems: [],
             showImport: false,
