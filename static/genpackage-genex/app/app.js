@@ -13,5 +13,4 @@ angular.module('genex', ['ngRoute', 'ngGrid', 'genjs.services', 'genjs.table',
             resolve: { _project: resolveByRouteField('Project', 'url_slug', 'projectSlug', true) }
         });
     }])
-    .constant('title', 'GenEx')
 ;
