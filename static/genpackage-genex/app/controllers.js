@@ -2,8 +2,8 @@
 
 
 angular.module('genex.controllers', [])
-    .controller('GenExCtrl', ['_project', '$scope', 'notify', 'Data', 'DataCache', 'fileUpload', 'createAndWaitProcessor',
-        function (_project, $scope, notify, Data, DataCache, fileUpload, createAndWaitProcessor) {
+    .controller('GenExCtrl', ['_project', '$scope', '$route', 'notify', 'Data', 'DataCache', 'fileUpload', 'createAndWaitProcessor',
+        function (_project, $scope, $route, notify, Data, DataCache, fileUpload, createAndWaitProcessor) {
 
         var importProcName = 'import:upload:textfile';
         var importProcType = 'data:genex:text:';
@@ -34,7 +34,7 @@ angular.module('genex.controllers', [])
             // When the file is uploaded
             finalDone: function (serverFile, clientFile) {
                 // Set import processor parameters
-                var process = new Data({
+                var process = {
                     case_ids: [_project.id],
                     processor_name: importProcName,
                     input: {
@@ -43,14 +43,14 @@ angular.module('genex.controllers', [])
                             file_temp: serverFile.temp
                         }
                     }
-                });
+                };
 
                 // Run import processor
                 var updateGentableAutomatically = true;
                 if (updateGentableAutomatically) {
-                    DataCache.save(process); // Runs processor and updates gentable automatically (GenTable uses cache and DataCache updates it)
+                    DataCache.runProcessor(process); // Runs processor and updates gentable automatically (GenTable uses cache and DataCache updates it)
                 } else {
-                    process.$save(); // This also runs the processor, but gentable is not updated
+                    new Data(process).$save(); // This also runs the processor, but gentable is not updated
                     $route.reload();
                 }
             }
