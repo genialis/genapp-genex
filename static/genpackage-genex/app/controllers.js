@@ -77,7 +77,7 @@ angular.module('genex.controllers', [])
             }
 
             // When results are obtained from storage, save them into results variable
-            function onStorageDataRecieved(storageData) {
+            function onStorageDataReceived(storageData) {
                 $scope.results = storageData;
             }
 
@@ -94,7 +94,7 @@ angular.module('genex.controllers', [])
             }
 
             createAndWaitProcessor(_project.id, wordsProcName, inputs, getStorageId)
-                .promise.then(onStorageDataRecieved, onErrorOccured, onChange);
+                .promise.then(onStorageDataReceived, onErrorOccured, onChange);
         }
 
         // A shorter version of runWordsProcessor
