@@ -89,12 +89,12 @@ angular.module('genex.controllers', [])
 
             // If an error occurs, log it into console.
             // Some errors are already handled within createAndWaitProcessor and show a notification
-            function onErrorOccured(errorReason) {
+            function onErroroccurred(errorReason) {
                 console.log('error', errorReason);
             }
 
             createAndWaitProcessor(_project.id, wordsProcName, inputs, getStorageId)
-                .promise.then(onStorageDataReceived, onErrorOccured, onChange);
+                .promise.then(onStorageDataReceived, onErroroccurred, onChange);
         }
 
         // A shorter version of runWordsProcessor
